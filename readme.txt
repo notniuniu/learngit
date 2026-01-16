@@ -40,6 +40,7 @@ git switch -c <branch_name>
 # 合并指定分支到当前分支
 git merge <branch_name>
 # 功能：将指定分支的更改合并到当前分支
+合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而默认合并就看不出来曾经做过合并
 
 # 删除本地分支
 git branch -d <branch_name>
