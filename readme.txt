@@ -1,109 +1,55 @@
-### 1. **管理版本**
+0.  **标准流程** 
+github上创建新仓库
+git clone git@xxx.git至本地
+main #发布版本
+dev0 #分支版本
+dev1 #分支版本
 
-这些命令用于查看、回退和管理 Git 仓库的版本。
+1. **管理版本**
 
-```
-# 查看工作区状态
-git status
-# 功能：查看当前工作区和暂存区的状态，是否有未提交的更改
+git status # 查看工作区状态
+git diff # 查看修改内容
+git log # 查看提交历史
+git reflog# 查看命令历史
+git reset --hard <commit_id> # 回退到指定版本（通过commit_id
 
-# 查看修改内容
-git diff
-# 功能：查看工作区文件与暂存区之间的差异，未暂存的修改内容
+2. **分支**
 
-# 查看提交历史
-git log
-# 功能：查看提交历史，展示每个提交的详细信息
+git switch -c <branch_name> # 创建新分支并切换到该分支
+git merge <branch_name> #  将指定分支的更改合并到当前分支
+git branch -d <branch_name># 删除指定的本地分支
+git log --graph # 以图形化方式展示分支的合并历史
 
-# 查看命令历史
-git reflog
-# 功能：查看所有命令的历史，包括回退、分支操作等
+3. **提交**
 
-# 回退到指定版本（通过commit_id）
-git reset --hard <commit_id>
-# 功能：将当前版本回退到指定的提交版本，HEAD指向该版本
+git init # 初始化一个Git仓库
+git add <file># 添加文件到Git仓库
+git commit -m "<message>"# 提交到Git仓库
+git checkout -- <file># 放弃工作区修改（不会影响暂存区）
+git reset HEAD <file># 放弃工作区修改并取消暂存
+git rm <file>删除工作区中的文件，并同时删除Git仓库中的文件
 
-# 撤销已经提交的修改（未推送到远程）
-git reset --hard <commit_id>
-# 功能：将本地版本回退到指定提交，注意：这会丢失当前的工作内容
-```
+4. **远程仓库**
 
-### 2. **分支**
+git remote add origin git@server-name:path/repo-name.git # 关联远程仓库
+git push -u origin main # 推送本地提交到远程仓库（第一次推送）
+git push origin master # 推送本地修改到远程仓库
 
-这些命令用于管理和操作 Git 的分支。
+5. **临时储藏**
 
-```
-# 创建新分支并切换到该分支
-git switch -c <branch_name>
-# 功能：创建新分支并立即切换到该分支
+git stash # 储藏当前工作区的修改，暂时保存未提交的更改
+git checkout main # 切换到 main 分支
+git checkout -b issue-101 # 创建并切换到新的分支 issue-101
+git switch master # 切换到 master 分支
+git add readme.txt # 将 readme.txt 文件添加到暂存区，准备提交
+git commit -m "fix bug 101" # 提交更改并附带提交信息 "fix bug 101"
+git merge --no-ff -m "merged bug fix 101" issue-101 # 合并 issue-101 分支到当前分支，使用 --no-ff 保持合并记录
+git switch dev # 切换到 dev 分支
+git stash list # 列出所有储藏的工作区修改
+git stash pop # 恢复最后一次储藏的工作区修改并从储藏中移除
+git cherry-pick <commit> # 将指定的提交 <commit> 应用到当前分支
 
-# 合并指定分支到当前分支
-git merge <branch_name>
-# 功能：将指定分支的更改合并到当前分支
-合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而默认合并就看不出来曾经做过合并
 
-# 删除本地分支
-git branch -d <branch_name>
-# 功能：删除指定的本地分支
-
-# 查看分支合并图
-git log --graph
-# 功能：以图形化方式展示分支的合并历史
-```
-
-### 3. **提交**
-
-这些命令用于对文件进行添加、提交和查看修改内容。
-
-```
-# 初始化一个Git仓库
-git init
-# 功能：初始化当前目录为一个新的Git仓库
-
-# 添加文件到Git仓库
-git add <file>
-# 功能：将指定文件添加到暂存区，准备提交。可以多次使用以添加多个文件
-
-# 提交到Git仓库
-git commit -m "<message>"
-# 功能：将暂存区的文件提交到版本库，并附带提交信息
-
-# 放弃工作区修改（不会影响暂存区）
-git checkout -- <file>
-# 功能：丢弃工作区的修改，恢复到暂存区的状态
-
-# 放弃工作区修改并取消暂存
-git reset HEAD <file>
-# 功能：将文件从暂存区移除，返回到未暂存状态
-```
-
-### 4. **远程仓库**
-
-这些命令用于操作远程仓库的关联和推送操作。
-
-```
-# 关联远程仓库
-git remote add origin git@server-name:path/repo-name.git
-# 功能：添加远程仓库，并指定仓库的URL地址
-
-# 推送本地提交到远程仓库（第一次推送）
-git push -u origin master
-# 功能：将本地master分支的内容推送到远程仓库，并设置关联
-
-# 推送本地修改到远程仓库
-git push origin master
-# 功能：将本地master分支的最新提交推送到远程仓库
-```
-
-### 5. **删除文件**
-
-```
-# 删除文件（从Git仓库中）
-git rm <file>
-# 功能：删除工作区中的文件，并同时删除Git仓库中的文件
-```
-
-通过这些分类，您可以更清晰地理解各个 Git 命令的作用及其功能。
 
 
 
